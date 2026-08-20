@@ -12,6 +12,8 @@ Example scripts for calling APIs from the command line and focusing on subsets o
 
 Fetch JSON once and filter it with a PowerShell expression.
 
+The optional filter is executed as PowerShell code. Only use trusted filter input.
+
 Usage:
 
 ```powershell
@@ -29,6 +31,8 @@ Examples:
 ### `scripts/watch-api-json.ps1`
 
 Continuously call an API endpoint and print filtered JSON output on an interval.
+
+The optional filter is executed as PowerShell code. Only use trusted filter input.
 
 Usage:
 
