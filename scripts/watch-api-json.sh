@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -uo pipefail
 
 if [[ $# -lt 1 ]]; then
   echo "Usage: $0 <url> [jq-filter] [interval-seconds]"
@@ -21,7 +21,7 @@ if ! command -v jq >/dev/null 2>&1; then
   exit 1
 fi
 
-if ! [[ "$INTERVAL" =~ ^[0-9]+$ ]]; then
+if ! [[ "$INTERVAL" =~ ^[1-9][0-9]*$ ]]; then
   echo "Error: interval must be a positive integer." >&2
   exit 1
 fi
@@ -29,8 +29,10 @@ fi
 while true; do
   printf '\n[%s] %s\n' "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" "$URL"
 
-  if ! curl -fsSL "$URL" | jq "$JQ_FILTER"; then
-    echo "Request or jq filter failed." >&2
+  if ! RESPONSE="$(curl -fsSL "$URL")"; then
+    echo "Request failed for URL: $URL" >&2
+  elif ! jq "$JQ_FILTER" <<<"$RESPONSE"; then
+    echo "jq filter failed for URL: $URL" >&2
   fi
 
   sleep "$INTERVAL"

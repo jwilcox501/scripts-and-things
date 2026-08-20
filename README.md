@@ -10,7 +10,7 @@ Example scripts for calling APIs from the command line and focusing on subsets o
 
 ## Scripts
 
-### `/home/runner/work/scripts-and-things/scripts-and-things/scripts/query-api-json.sh`
+### `scripts/query-api-json.sh`
 
 Fetch JSON once and filter it with a `jq` expression.
 
@@ -28,7 +28,7 @@ Examples:
 ./scripts/query-api-json.sh https://api.github.com/repos/jwilcox501/scripts-and-things '.owner.login'
 ```
 
-### `/home/runner/work/scripts-and-things/scripts-and-things/scripts/watch-api-json.sh`
+### `scripts/watch-api-json.sh`
 
 Continuously call an API endpoint and print filtered JSON output on an interval.
 

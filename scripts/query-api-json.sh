@@ -20,4 +20,12 @@ if ! command -v jq >/dev/null 2>&1; then
   exit 1
 fi
 
-curl -fsSL "$URL" | jq "$JQ_FILTER"
+if ! RESPONSE="$(curl -fsSL "$URL")"; then
+  echo "Request failed for URL: $URL" >&2
+  exit 1
+fi
+
+if ! jq "$JQ_FILTER" <<<"$RESPONSE"; then
+  echo "jq filter failed for URL: $URL" >&2
+  exit 1
+fi
