@@ -29,6 +29,18 @@ function Write-ApiResult {
     }
 }
 
+function Get-ApiResponse {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$RequestUrl
+    )
+
+    Invoke-RestMethod -Uri $RequestUrl -Headers @{
+        Accept     = 'application/json'
+        'User-Agent' = 'scripts-and-things-powershell'
+    }
+}
+
 try {
     $FilterBlock = [scriptblock]::Create("param(`$InputObject) $Filter")
 } catch {
@@ -37,7 +49,7 @@ try {
 }
 
 try {
-    $Response = Invoke-RestMethod -Uri $Url
+    $Response = Get-ApiResponse -RequestUrl $Url
 } catch {
     Write-Error "Request failed for URL '$Url': $($_.Exception.Message)"
     exit 1

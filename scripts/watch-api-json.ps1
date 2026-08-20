@@ -33,6 +33,18 @@ function Write-ApiResult {
     }
 }
 
+function Get-ApiResponse {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$RequestUrl
+    )
+
+    Invoke-RestMethod -Uri $RequestUrl -Headers @{
+        Accept     = 'application/json'
+        'User-Agent' = 'scripts-and-things-powershell'
+    }
+}
+
 try {
     $FilterBlock = [scriptblock]::Create("param(`$InputObject) $Filter")
 } catch {
@@ -45,7 +57,7 @@ while ($true) {
     Write-Output ("[{0}] {1}" -f (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ"), $Url)
 
     try {
-        $Response = Invoke-RestMethod -Uri $Url
+        $Response = Get-ApiResponse -RequestUrl $Url
         & $FilterBlock $Response | Write-ApiResult
     } catch {
         Write-Error "Request or filter failed for URL '$Url': $($_.Exception.Message)"
