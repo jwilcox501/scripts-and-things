@@ -46,6 +46,7 @@ function Get-ApiResponse {
 }
 
 try {
+    # The filter is executed as PowerShell code; only pass trusted input.
     $FilterBlock = [scriptblock]::Create("param(`$InputObject) $Filter")
 } catch {
     Write-Error "Filter parsing failed: $($_.Exception.Message)"
@@ -53,7 +54,7 @@ try {
 }
 
 while ($true) {
-    Write-Output ""
+    Write-Host ""
     Write-Output ("[{0}] {1}" -f (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ"), $Url)
 
     try {

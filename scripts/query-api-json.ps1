@@ -42,6 +42,7 @@ function Get-ApiResponse {
 }
 
 try {
+    # The filter is executed as PowerShell code; only pass trusted input.
     $FilterBlock = [scriptblock]::Create("param(`$InputObject) $Filter")
 } catch {
     Write-Error "Filter parsing failed: $($_.Exception.Message)"
